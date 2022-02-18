@@ -1,0 +1,22 @@
+.banner{
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 5em;
+    border: 1px solid black;
+    background-color: aqua;
+    display: flex;
+    justify-content: space-around;
+}
+.buttons_login{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.buttons_login button{
+    background-color: blue;
+    border: none;
+    border-radius: 10%;
+    margin: 0.5em;
+    font-weight: 100;
+}
