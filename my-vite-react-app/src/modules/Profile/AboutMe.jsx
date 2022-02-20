@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import styles from "../../styles/AboutMe.module.css"
 
 //images
@@ -6,12 +6,14 @@ import palomita_button from "../../img/palomita_button.png";
 import x_button from "../../img/x_button.png";
 import save_file_button from "../../img/save_file_button.png";
 function AboutMe(){
+
     
     const [usuario,setUsuario] = useState(
         {
             "name": "Leo",
             "bio": "",
-            "pending": ["assasins","lol","league of legends","the lord of the rings"],
+            "playing":["assasins","lol","league of legends","the lord of the rings"],
+            "pending": [],
             "completed": []
         }
     )
@@ -23,6 +25,7 @@ function AboutMe(){
             "completed":false
         }
     )
+    
 
     function edit(e){
         const {name} = e.target;
@@ -46,33 +49,46 @@ function AboutMe(){
         
     }
 
-    
- 
-    let pending_games = usuario.pending.map((game,game_index)=>{
+
+    const pending_games = usuario.playing.map((game,game_index)=>{
         return(
-            <li key={game_index} className={styles.game_item}>
+            <li key={game_index} className={styles.game_item} name={game}>
                 {game}
                 {editar.playing &&
                 <>
-                    <img src={palomita_button} className={styles.img_icon} name="palomita" alt="palomita" />
-                    <img src={save_file_button} className={styles.img_icon} name="save_file" alt="save" />
-                    <img src={x_button} className={styles.img_icon} name="x_button" alt="delete" />
+                    <img src={palomita_button} className={styles.img_icon} name="palomita" alt="palomita" onClick={icon_action} />
+                    <img src={save_file_button} className={styles.img_icon} name="save_file" alt="save" onClick={icon_action}/>
+                    <img src={x_button} className={styles.img_icon} name="x_button" alt="delete" onClick={icon_action}/>
                 </>
                 }
             </li>
         )
     })
+   
 
     function icon_action(e){
+        const parent = e.target.parentElement;
+        const juego = parent.firstChild.textContent;
+        const index_juego = usuario.playing.indexOf(juego);
         const {name} = e.target;
         switch(name){
             case "palomita":
-                set
+                let juego_completado = usuario.playing.splice(index_juego,1)[0];
+                usuario.completed.push(juego_completado);
+                console.log("entro",name)
+                console.log(usuario.completed)
+                break
             case "save_file":
+                let juego_pendiente = usuario.playing.splice(index_juego,1)[0];
+                usuario.pending.push(juego_pendiente);
+                console.log("entro")
                 break
             case "x_button":
+                let juego_borrado = usuario.playing.splice(index_juego,1)[0];
+                console.log("entro")
                 break
         }
+        
     }
     
     return(
